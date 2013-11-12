@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Packet {
-    public class ATMPacket {
+
+    [Serializable()]
+    public class ATMPacket : ISerializable {
 
         public enum AALType {COM, BOM, EOM, SSM}; /*  2 bity
                                  *  01 BOM początek komunikatu
@@ -14,8 +17,6 @@ namespace Packet {
                                  *  10 EOM koniec komunikatu
                                  *  11 SSM komunikat jednosegmentowy   */
 
-        //Dane
-        public byte[] payload { get; private set; } // 44 bajty payload
 
         /*
          * WAŻNE - port z którego pakiet został WYSŁANY z poprzedniego węzła
@@ -37,12 +38,36 @@ namespace Packet {
         public int AALMid { get; private set; } // 10 bitów identyfikator jednostki danych protokołu 
         //ciąg pakietów zawierających jedną wiadomość ma ten sam identyfikator, simple
 
+        //Dane
+        public byte[] payload { get; private set; } // 44 bajty payload
+
         public ATMPacket(AALType type, byte[] payload, int AALSeq, int AALMid) {
             this.PacketType = type;
             this.payload = payload;
             this.AALMid = AALMid;
             this.AALSeq = AALSeq;
         }
-    
+
+        //konstruktor deserializujący
+        public ATMPacket(SerializationInfo info, StreamingContext ctxt) {
+            //Get the values from info and assign them to the appropriate properties
+            port = (int)info.GetValue("port", typeof(int));
+            VPI = (int)info.GetValue("VPI", typeof(int));
+            VCI = (int)info.GetValue("VCI", typeof(int));
+            PacketType = (Packet.ATMPacket.AALType)info.GetValue("PacketType", typeof(Packet.ATMPacket.AALType));
+            AALSeq = (int)info.GetValue("AALSeq", typeof(int));
+            AALMid = (int)info.GetValue("AALMid", typeof(int));
+            payload = (byte[])info.GetValue("payload", typeof(byte[]));
+        }
+        //metoda serializująca
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt) {
+            info.AddValue("port", port);
+            info.AddValue("VPI", VPI);
+            info.AddValue("VCI", VCI);
+            info.AddValue("PacketType", PacketType);
+            info.AddValue("AALSeq", AALSeq);
+            info.AddValue("AALMid", AALMid);
+            info.AddValue("payload", payload);
+        }
     }
 }

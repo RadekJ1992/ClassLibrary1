@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,8 +15,8 @@ namespace Packet {
      * 
      * WAŻNE: pakiety nie mają ustawionych wartości VPI, VCI i port
      */
-    class AAL {
-        
+    public class AAL {
+
         public static byte[] GetBytesFromString(string str) {
             byte[] bytes = new byte[str.Length * sizeof(char)];
             System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
@@ -47,18 +49,21 @@ namespace Packet {
                 //jeśli wystarczy wysłać jeden pakiet
                 if (numberOfPackets == 1) {
                     q.Enqueue(new ATMPacket(ATMPacket.AALType.SSM,
-                        bufBytes, i,  AALMid));
-                } else if (i == 0) {
-                    byte[] tempBytes = bufBytes.Skip(i*44).Take(44).ToArray();
+                        bufBytes, i, AALMid));
+                }
+                else if (i == 0) {
+                    byte[] tempBytes = bufBytes.Skip(i * 44).Take(44).ToArray();
                     q.Enqueue(new ATMPacket(
                     Packet.ATMPacket.AALType.BOM,
                     tempBytes, i, AALMid));
-                } else if (i == (numberOfPackets - 1)) {
+                }
+                else if (i == (numberOfPackets - 1)) {
                     byte[] tempBytes = bufBytes.Skip(i * 44).Take(numberOfBytes % 44).ToArray();
                     q.Enqueue(new ATMPacket(
                     Packet.ATMPacket.AALType.EOM,
                     tempBytes, i, AALMid));
-                } else {
+                }
+                else {
                     byte[] tempBytes = bufBytes.Skip(i * 44).Take(44).ToArray();
                     q.Enqueue(new ATMPacket(
                     Packet.ATMPacket.AALType.COM,
@@ -70,7 +75,7 @@ namespace Packet {
 
         //Podajemy kolejkę FIFO pakietów, metoda przekształca je na String
         //NA RAZIE nie ma sprawdzania AALMid i AALSeq, jak będzie działać jako tako to się to doda
-        public static String getStringFromPackets(Queue<ATMPacket> queue){
+        public static String getStringFromPackets(Queue<ATMPacket> queue) {
             String bufString = "";
             foreach (ATMPacket p in queue) {
                 bufString += GetStringFromBytes(p.payload);
