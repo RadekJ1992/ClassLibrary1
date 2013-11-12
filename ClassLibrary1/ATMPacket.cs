@@ -15,7 +15,7 @@ namespace Packet {
                                  *  11 SSM komunikat jednosegmentowy   */
 
         //Dane
-        private byte[] payload { get; set; } // 44 bajty payload
+        public byte[] payload { get; private set; } // 44 bajty payload
 
         /*
          * WAŻNE - port z którego pakiet został WYSŁANY z poprzedniego węzła
@@ -25,16 +25,24 @@ namespace Packet {
          * Chmura zmienia wartosć tego pola na 2 i wysyła do węzła y. Węzeł y widzi że przyszedł pakiet, czyta 
          * wartość tego pola i wie że "ten pakiet przyszedł na ten port, więc zrobię to i to
          */
-        private int port { get; set; }
+        public int port { get; set; }
 
         //nagłówki VPI i VCI
-        private int VPI { get; set; } // VPI
-        private int VCI { get; set; } // VCI
+        public int VPI { get; set; } // VPI
+        public int VCI { get; set; } // VCI
 
         //nagłówki AAL
-        private AALType PacketType { get; set; } // typ pakietu              
-        private int AALSeq { get; set; } // 4 bity, do wykrycia straty komórki lub zmiany kolejności
-        private int AALMid { get; set; } // 10 bitów identyfikator jednostki danych protokołu 
+        public AALType PacketType { get; private set; } // typ pakietu              
+        public int AALSeq { get; private set; } // 4 bity, do wykrycia straty komórki lub zmiany kolejności
+        public int AALMid { get; private set; } // 10 bitów identyfikator jednostki danych protokołu 
         //ciąg pakietów zawierających jedną wiadomość ma ten sam identyfikator, simple
+
+        public ATMPacket(AALType type, byte[] payload, int AALSeq, int AALMid) {
+            this.PacketType = type;
+            this.payload = payload;
+            this.AALMid = AALMid;
+            this.AALSeq = AALSeq;
+        }
+    
     }
 }
