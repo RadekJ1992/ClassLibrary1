@@ -14,27 +14,24 @@ namespace Packet {
      * WAŻNE: pakiety nie mają ustawionych wartości VPI, VCI i port
      */
     class AAL {
-        //string do obróbki
-        private String text;
-        private byte[] bufBytes;
-        private int numberOfBytes;
-        private ATMPacket[] packets;
-        private int numberOfPackets;
-
-        public byte[] GetBytesFromString(string str) {
+        
+        public static byte[] GetBytesFromString(string str) {
             byte[] bytes = new byte[str.Length * sizeof(char)];
             System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
             return bytes;
         }
 
-        public string GetStringFromBytes(byte[] bytes) {
+        public static string GetStringFromBytes(byte[] bytes) {
             char[] chars = new char[bytes.Length / sizeof(char)];
             System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
             return new string(chars);
         }
 
         // kolejka FIFO pakietów ATM, wysyłamy od początkowego elementu kolejki
-        public Queue<ATMPacket> getATMPackets(String text) {
+        public static Queue<ATMPacket> getATMPackets(String text) {
+            byte[] bufBytes;
+            int numberOfPackets;
+            int numberOfBytes;
             //tworzymy zmienną AALMid, losowa liczba z przedziału <0, 2^10)
             Random r = new Random();
             int AALMid = r.Next(1023);
@@ -73,7 +70,7 @@ namespace Packet {
 
         //Podajemy kolejkę FIFO pakietów, metoda przekształca je na String
         //NA RAZIE nie ma sprawdzania AALMid i AALSeq, jak będzie działać jako tako to się to doda
-        public String getStringFromPackets(Queue<ATMPacket> queue){
+        public static String getStringFromPackets(Queue<ATMPacket> queue){
             String bufString = "";
             foreach (ATMPacket p in queue) {
                 bufString += GetStringFromBytes(p.payload);
