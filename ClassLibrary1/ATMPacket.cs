@@ -29,8 +29,8 @@ namespace Packet {
         public int port { get; set; }
 
         //nagłówki VPI i VCI
-        public int VPI { get; set; } // VPI
-        public int VCI { get; set; } // VCI
+        public int VPI { get; set; } // VPI 12 bit
+        public int VCI { get; set; } // VCI 16 bit
 
         //nagłówki AAL
         public AALType PacketType { get; private set; } // typ pakietu              
