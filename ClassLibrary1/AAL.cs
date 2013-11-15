@@ -82,5 +82,13 @@ namespace Packet {
             }
             return bufString;
         }
+
+        public static String getStringFromPacket(ATMPacket packet) {
+            String bufString = "";
+            //foreach (ATMPacket p in queue) {
+            bufString = GetStringFromBytes(packet.payload);
+            //}
+            return bufString;
+        }
     }
 }
