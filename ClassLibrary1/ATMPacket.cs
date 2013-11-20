@@ -26,9 +26,9 @@ namespace Packet {
          * Chmura zmienia wartosć tego pola na 2 i wysyła do węzła y. Węzeł y widzi że przyszedł pakiet, czyta 
          * wartość tego pola i wie że "ten pakiet przyszedł na ten port, więc zrobię to i to
          */
-        public int port { get; set; }
 
-        //nagłówki VPI i VCI
+        //nagłówki port, VPI i VCI
+        public int port { get; set; }
         public int VPI { get; set; } // VPI 12 bit
         public int VCI { get; set; } // VCI 16 bit
 
