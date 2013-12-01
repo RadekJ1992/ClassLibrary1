@@ -25,9 +25,10 @@ namespace Packet {
         }
 
         public static string GetStringFromBytes(byte[] bytes) {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-            return new string(chars);
+            //char[] chars = new char[bytes.Length / sizeof(char)];
+            String chars = System.Text.Encoding.ASCII.GetString(bytes);
+           // System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+            return chars;
         }
 
         // kolejka FIFO pakietów ATM, wysyłamy od początkowego elementu kolejki
