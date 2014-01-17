@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Packet 
 {   
     [Serializable]
-    class SPacket : ISerializable
+    public class SPacket : ISerializable
     {
         private string src;
         private string dest;
@@ -21,11 +21,11 @@ namespace Packet
             dest = "-";
             parames = new List<string>();
         }
-        public SPacket(string s, string d, List<string> p)
+        public SPacket(string source, string destination, List<string> parames)
         {
-            src = (string)s.Clone();
-            dest = (string)d.Clone();
-            parames = new List<string>(p);
+            src = (string)source.Clone();
+            dest = (string)destination.Clone();
+            this.parames = new List<string>(parames);
         }
         //konstruktor deserializujący
         public SPacket(SerializationInfo info, StreamingContext ctxt)
