@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SignalPacket 
+namespace Packet 
 {   
     [Serializable]
     class SPacket : ISerializable
