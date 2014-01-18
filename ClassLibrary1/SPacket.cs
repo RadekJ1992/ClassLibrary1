@@ -57,6 +57,16 @@ namespace Packet
                 Console.Out.WriteLine("Pomyślnie dodało parametr");
             }
         }
+		public void setparames(String komenda)//splituje stringa gdzie znakiem rozdzielającym jest string i dodaje kolejne stringi po pdoziale do tablicy, kasuje poprzednią listę!!!
+        {
+            parames = new List<string>();
+            String[] splitowane = komenda.Split(' ');
+            for(int i =0;i<splitowane.Length;i++)
+            {
+                parames.Add(splitowane[i]);
+            }
+        }
+
 
         public override string ToString()
         {
