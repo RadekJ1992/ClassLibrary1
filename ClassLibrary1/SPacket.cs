@@ -27,6 +27,12 @@ namespace Packet
             dest = (string)destination.Clone();
             this.parames = new List<string>(parames);
         }
+        public SPacket(string source, string destination, string parames)
+        {
+            src = source;
+            dest = destination;
+            this.setParames(parames);
+        }
         //konstruktor deserializujący
         public SPacket(SerializationInfo info, StreamingContext ctxt)
         {
@@ -57,7 +63,7 @@ namespace Packet
                 Console.Out.WriteLine("Pomyślnie dodało parametr");
             }
         }
-		public void setparames(String komenda)//splituje stringa gdzie znakiem rozdzielającym jest string i dodaje kolejne stringi po pdoziale do tablicy, kasuje poprzednią listę!!!
+		public void setParames(String komenda)//splituje stringa gdzie znakiem rozdzielającym jest string i dodaje kolejne stringi po pdoziale do tablicy, kasuje poprzednią listę!!!
         {
             parames = new List<string>();
             String[] splitowane = komenda.Split(' ');
