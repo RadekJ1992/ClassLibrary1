@@ -73,6 +73,13 @@ namespace Packet
             }
         }
 
+        public void Swap(String param)//zamienia src z dest i daje nowe parametry
+        {
+            String temp = this.src;
+            this.src = this.dest;
+            this.dest = temp;
+            setParames(param);
+        }
 
         public override string ToString()
         {
